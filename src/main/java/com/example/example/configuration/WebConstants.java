@@ -1,4 +1,4 @@
-package com.example.example.config;
+package com.example.example.configuration;
 
 public class WebConstants {
 

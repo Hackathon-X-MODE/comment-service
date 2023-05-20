@@ -1,0 +1,19 @@
+package com.example.example.model.nlp;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.UUID;
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class CommentAnalystRequest {
+    private UUID id;
+
+    private String comment;
+
+    private boolean needTypes;
+}

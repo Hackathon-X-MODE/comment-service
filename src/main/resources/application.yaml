@@ -1,4 +1,8 @@
 spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
   application:
     name: example
   datasource:
@@ -12,7 +16,7 @@ spring:
     hibernate:
       ddl-auto: update
 server:
-  port: ${SERVER_HTTP_PORT:8081}
+  port: ${SERVER_HTTP_PORT:8083}
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
