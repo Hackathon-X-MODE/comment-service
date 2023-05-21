@@ -26,7 +26,7 @@ public class TicketClient {
 
     public void registerTicket(UUID commentId) {
         this.webClient.post()
-                .uri(uriBuilder -> uriBuilder.path("/order/register").build())
+                .uri(uriBuilder -> uriBuilder.path("/register").build())
                 .bodyValue(
                         Map.of(
                                 "commentId", commentId

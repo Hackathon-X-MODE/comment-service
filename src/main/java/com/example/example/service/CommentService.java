@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -67,5 +69,11 @@ public class CommentService {
     @Transactional(readOnly = true)
     public CommentDto getDto(UUID commentId) {
         return this.commentMapper.toDto(this.get(commentId));
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<CommentDto> getDto(Collection<UUID> ids) {
+        return this.commentRepository.findAllById(ids).stream().map(this.commentMapper::toDto).toList();
     }
 }

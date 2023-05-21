@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -30,6 +32,13 @@ public class CommentController {
             @PathVariable("commentId") UUID commentId
     ) {
         return this.commentService.getDto(commentId);
+    }
+
+    @Operation(description = "Получение по списку ID")
+    @PostMapping("/list")
+    public List<CommentDto> get(
+            @RequestBody Set<UUID> commentIds) {
+        return this.commentService.getDto(commentIds);
     }
 
     @PatchMapping("{commentId}")
