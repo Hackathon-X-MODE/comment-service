@@ -40,8 +40,6 @@ public enum CommentType {
      */
     OTHER,
 
-
-
     /**
      * 2.1)выбор способа доставки в постамат
      */

@@ -2,33 +2,23 @@ package com.example.example.model;
 
 import com.example.example.domain.enumerated.CommentMood;
 import com.example.example.domain.enumerated.CommentType;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentDto {
-
+public class CommentNlpDto {
 
     private UUID id;
 
-    private UUID orderId;
-
     private CommentMood mood;
 
-    @Schema(description = "Обновление")
-    private Set<CommentType> commentTypesSet;
-
-    private Map<CommentType, Set<CommentType>> commentTypes;
-
-
+    private List<CommentType> commentTypes;
 }

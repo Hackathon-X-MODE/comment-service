@@ -25,12 +25,11 @@ public class CommentController {
         this.commentService.register(key, commentCreationDto);
     }
 
-
-    @PatchMapping("{commentId}")
-    public CommentDto update(
-            @PathVariable("commentId") UUID commentId,
-            @RequestBody CommentDto commentDto) {
-        return this.commentService.update(commentId, commentDto);
+    @GetMapping("{commentId}")
+    public CommentDto getComment(
+            @PathVariable("commentId") UUID commentId
+    ){
+        return this.commentService.getDto(commentId);
     }
 
 }
