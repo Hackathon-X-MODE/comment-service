@@ -25,6 +25,8 @@ public class CommentDto {
 
     private CommentMood mood;
 
+    private double rate;
+
     @Schema(description = "Обновление")
     private Set<CommentType> commentTypesSet;
 

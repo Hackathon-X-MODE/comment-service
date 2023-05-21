@@ -1,7 +1,7 @@
 package com.example.example.controller;
 
 import com.example.example.model.CommentNlpDto;
-import com.example.example.service.CommentService;
+import com.example.example.service.CommentNlpService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,12 +12,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CommentNlpController {
 
-    private final CommentService commentService;
+    private final CommentNlpService commentNlpService;
 
     @PatchMapping("{commentId}")
     public void update(
             @PathVariable("commentId") UUID commentId,
             @RequestBody CommentNlpDto commentNlpDto) {
-        this.commentService.update(commentId, commentNlpDto);
+        this.commentNlpService.acceptNlpProcess(commentId, commentNlpDto);
     }
 }

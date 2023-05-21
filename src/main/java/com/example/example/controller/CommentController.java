@@ -28,8 +28,16 @@ public class CommentController {
     @GetMapping("{commentId}")
     public CommentDto getComment(
             @PathVariable("commentId") UUID commentId
-    ){
+    ) {
         return this.commentService.getDto(commentId);
+    }
+
+    @PatchMapping("{commentId}")
+    public CommentDto update(
+            @PathVariable("commentId") UUID commentId,
+            @RequestBody CommentDto commentDto
+    ) {
+        return this.commentService.update(commentId, commentDto);
     }
 
 }
