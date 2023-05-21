@@ -41,7 +41,7 @@ public class CommentEntity {
     @Enumerated(value = EnumType.STRING)
     private CommentSource source;
 
-    @Column(name = "comment", columnDefinition = "varchar(1024)", nullable = false)
+    @Column(name = "comment", columnDefinition = "varchar(3072)", nullable = false)
     private String comment;
 
     private double rate;

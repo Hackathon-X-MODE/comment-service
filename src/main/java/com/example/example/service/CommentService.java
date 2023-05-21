@@ -38,7 +38,7 @@ public class CommentService {
                         .setOrderId(orderId)
         );
         this.nlpService.sentAnalyst(comment.getId(), comment.getComment(), comment.getCommentTypes().isEmpty());
-
+        log.info("new comment sent to analyst");
         this.orderClient.deleteKey(key);
     }
 
