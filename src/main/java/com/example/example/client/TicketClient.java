@@ -25,7 +25,7 @@ public class TicketClient {
 
     public void registerTicket(CommentDto commentDto) {
         this.webClient.post()
-                .uri(uriBuilder -> uriBuilder.path("/notify").build())
+                .uri(uriBuilder -> uriBuilder.path("/private/notify").build())
                 .bodyValue(commentDto)
                 .retrieve()
                 .toBodilessEntity().block();
