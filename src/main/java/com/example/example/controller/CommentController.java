@@ -4,6 +4,7 @@ import com.example.example.model.CommentCreationDto;
 import com.example.example.model.CommentDto;
 import com.example.example.model.CommentFilter;
 import com.example.example.service.CommentService;
+import com.example.example.service.CommentUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,8 @@ import java.util.UUID;
 public class CommentController {
 
     private final CommentService commentService;
+
+    private final CommentUpdateService commentUpdateService;
 
     @Operation(summary = "Зарегистрировать отзыв")
     @PostMapping
@@ -56,7 +59,7 @@ public class CommentController {
             @PathVariable("commentId") UUID commentId,
             @RequestBody CommentDto commentDto
     ) {
-        return this.commentService.update(commentId, commentDto);
+        return this.commentUpdateService.update(commentId, commentDto);
     }
 
 }

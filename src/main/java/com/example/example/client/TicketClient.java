@@ -1,13 +1,12 @@
 package com.example.example.client;
 
+import com.example.example.model.CommentDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @Component
 public class TicketClient {
@@ -24,14 +23,10 @@ public class TicketClient {
     }
 
 
-    public void registerTicket(UUID commentId) {
+    public void registerTicket(CommentDto commentDto) {
         this.webClient.post()
-                .uri(uriBuilder -> uriBuilder.path("/register").build())
-                .bodyValue(
-                        Map.of(
-                                "commentId", commentId
-                        )
-                )
+                .uri(uriBuilder -> uriBuilder.path("/notify").build())
+                .bodyValue(commentDto)
                 .retrieve()
                 .toBodilessEntity().block();
     }

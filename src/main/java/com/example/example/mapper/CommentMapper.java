@@ -20,12 +20,24 @@ public interface CommentMapper {
 
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "orderId", ignore = true)
+    @Mapping(target = "person", ignore = true)
+    @Mapping(target = "source", ignore = true)
+    @Mapping(target = "comment", ignore = true)
+    @Mapping(target = "rate", ignore = true)
+    @Mapping(target = "createDate", ignore = true)
     @Mapping(target = "mood", source = "mood", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "commentTypes", source = "commentTypes", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     CommentEntity update(@MappingTarget CommentEntity commentEntity, CommentNlpDto commentNlpDto);
 
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "orderId", ignore = true)
+    @Mapping(target = "person", ignore = true)
+    @Mapping(target = "source", ignore = true)
+    @Mapping(target = "comment", ignore = true)
+    @Mapping(target = "rate", ignore = true)
+    @Mapping(target = "createDate", ignore = true)
     @Mapping(target = "mood", source = "mood", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "commentTypes", source = "commentTypesSet", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     CommentEntity update(@MappingTarget CommentEntity commentEntity, CommentDto commentDto);

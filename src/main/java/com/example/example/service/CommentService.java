@@ -52,13 +52,6 @@ public class CommentService {
         );
     }
 
-    @Transactional
-    public CommentDto update(UUID commentId, CommentDto commentDto) {
-        return this.commentMapper.toDto(
-                this.commentMapper.update(this.get(commentId), commentDto)
-        );
-    }
-
 
     @Transactional(readOnly = true)
     public CommentEntity get(UUID commentId) {
