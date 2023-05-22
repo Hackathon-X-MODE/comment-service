@@ -7,7 +7,6 @@ import com.example.example.domain.enumerated.CommentType;
 import com.example.example.model.CommentDto;
 import com.example.example.model.CommentFilter;
 import com.example.example.service.CommentService;
-import com.example.example.service.CommentTypeDirectory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.util.IOUtils;
@@ -19,10 +18,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Function;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -64,12 +60,11 @@ public class ExportService {
                                     .add("id", CommentDto::getId)
                                     .add("create_date", CommentDto::getCreateDate)
                                     .add("source", CommentDto::getSource)
-                                    //TODO
-                                    .add("mood", CommentDto::getMood)
-                                    .add("type", dto -> this.getType(dto.getCommentTypesSet()))
-                                    .add("sub-type", dto -> this.getSubType(dto.getCommentTypesSet()))
                                     .add("rate", CommentDto::getRate)
+                                    .add("mood", CommentDto::getMood)
                                     .add("comment", CommentDto::getComment)
+                                    .add("type", dto -> this.getType(dto.getCommentTypes()))
+                                    .add("sub-type", dto -> this.getSubType(dto.getCommentTypes()))
                                     .add("need-resolve", dto -> String.valueOf(dto.getMood() == CommentMood.NEGATIVE || dto.getRate() <= 3))
                     )
                     .asExcel()
@@ -104,17 +99,17 @@ public class ExportService {
     }
 
 
-    private String getType(Set<CommentType> commentTypeSet) {
-        return this.getAnyType(commentTypeSet, CommentTypeDirectory::isFirstLevel);
+    private String getType(Map<CommentType, Set<CommentType>> commentTypeSet) {
+        return this.typeToString(commentTypeSet.keySet());
     }
 
-    private String getSubType(Set<CommentType> commentTypeSet) {
-        return this.getAnyType(commentTypeSet, CommentTypeDirectory::isSecondLevel);
+    private String getSubType(Map<CommentType, Set<CommentType>> commentTypeSet) {
+        return this.typeToString(commentTypeSet.values().stream().flatMap(Collection::stream).collect(Collectors.toSet()));
     }
 
 
-    private String getAnyType(Set<CommentType> commentTypeSet, Function<CommentType, Boolean> function) {
-        return commentTypeSet.stream().filter(function::apply)
+    private String typeToString(Set<CommentType> commentTypeSet) {
+        return commentTypeSet.stream()
                 .map(Objects::toString)
                 .collect(Collectors.joining(","));
     }
