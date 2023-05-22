@@ -2,6 +2,7 @@ package com.example.example.controller;
 
 import com.example.example.model.CommentCreationDto;
 import com.example.example.model.CommentDto;
+import com.example.example.model.CommentFilter;
 import com.example.example.service.CommentService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,15 @@ public class CommentController {
             @PathVariable("commentId") UUID commentId
     ) {
         return this.commentService.getDto(commentId);
+    }
+
+
+    @Operation(summary = "Поиск по фильтрам")
+    @GetMapping
+    public List<CommentDto> getComment(
+            CommentFilter commentFilter
+    ) {
+        return this.commentService.filter(commentFilter);
     }
 
     @Operation(description = "Получение по списку ID")

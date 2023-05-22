@@ -6,6 +6,7 @@ import com.example.example.exception.EntityNotFoundException;
 import com.example.example.mapper.CommentMapper;
 import com.example.example.model.CommentCreationDto;
 import com.example.example.model.CommentDto;
+import com.example.example.model.CommentFilter;
 import com.example.example.model.CommentNlpDto;
 import com.example.example.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
@@ -75,5 +76,10 @@ public class CommentService {
     @Transactional(readOnly = true)
     public List<CommentDto> getDto(Collection<UUID> ids) {
         return this.commentRepository.findAllById(ids).stream().map(this.commentMapper::toDto).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<CommentDto> filter(CommentFilter commentFilter) {
+        return this.commentRepository.filter(commentFilter).stream().map(this.commentMapper::toDto).toList();
     }
 }
