@@ -11,6 +11,9 @@ import com.example.example.model.CommentNlpDto;
 import com.example.example.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,6 +76,18 @@ public class CommentService {
 
     @Transactional(readOnly = true)
     public List<CommentDto> filter(CommentFilter commentFilter) {
-        return this.commentRepository.filter(commentFilter).stream().map(this.commentMapper::toDto).toList();
+        return this.filterWithPage(commentFilter, Pageable.unpaged()).stream().toList();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<CommentDto> filterWithPage(CommentFilter commentFilter, Pageable pageable) {
+
+        final var page = this.commentRepository.filter(commentFilter, pageable);
+
+        return new PageImpl<>(
+                page.stream().map(this.commentMapper::toDto)
+                        .toList(),
+                pageable, page.getTotalElements()
+        );
     }
 }

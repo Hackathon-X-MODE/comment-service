@@ -84,8 +84,12 @@ public class CommentTypeDirectory {
         throw new RuntimeException("Unsupported " + commentType);
     }
 
-    private static boolean isFirstLevel(CommentType commentType) {
+    public static boolean isFirstLevel(CommentType commentType) {
         return MAP_TYPES.containsKey(commentType);
+    }
+
+    public static boolean isSecondLevel(CommentType commentType) {
+        return !isFirstLevel(commentType);
     }
 
 }
