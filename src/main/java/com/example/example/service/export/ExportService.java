@@ -9,12 +9,15 @@ import com.example.example.model.CommentFilter;
 import com.example.example.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.util.IOUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.time.Duration;
 import java.time.Instant;
@@ -32,14 +35,23 @@ public class ExportService {
 
     private final CommentService commentService;
 
-    public void export(OutputStream out) throws IOException {
+    private final CommentExportService commentExportService;
+
+    @Async
+    public void export(UUID out) throws IOException {
         log.info("Export started...");
         final var start = Instant.now();
         this.generate(out);
         log.info("Wow took just {} seconds, look's good. oh and export finished!", Duration.between(start, Instant.now()).toSeconds());
     }
 
-    private void generate(OutputStream out) throws IOException {
+
+    public void export(OutputStream outputStream, UUID id) throws IOException {
+        final var path = this.commentExportService.getReport(id);
+        Files.copy(new File(path).toPath(), outputStream);
+    }
+
+    private void generate(UUID out) throws IOException {
         final var files = new ArrayList<File>();
         final var tempDirPath = Files.createTempDirectory("tmpDirPrefix").toFile().getAbsolutePath();
         var page = 0;
@@ -84,20 +96,16 @@ public class ExportService {
             log.info(file.getAbsolutePath());
         }
 
-
-        var zipOutputStream = new ZipOutputStream(out);
-
-        for (File file : files) {
-            zipOutputStream.putNextEntry(new ZipEntry(file.getName()));
-            FileInputStream fileInputStream = new FileInputStream(file);
-
-            IOUtils.copy(fileInputStream, zipOutputStream);
-
-            fileInputStream.close();
-            zipOutputStream.closeEntry();
+        try (ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream(tempDirPath + "/result.zip"))) {
+            for (final var file : files) {
+                zipOut.putNextEntry(new ZipEntry(file.getName()));
+                Files.copy(file.toPath(), zipOut);
+                file.delete();
+            }
         }
 
-        zipOutputStream.close();
+
+        this.commentExportService.update(out, tempDirPath + "/result.zip");
     }
 
 
