@@ -15,6 +15,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  mvc:
+    async:
+      request-timeout: -1
 server:
   port: ${SERVER_HTTP_PORT:8083}
 springdoc:

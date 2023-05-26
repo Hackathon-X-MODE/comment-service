@@ -1,6 +1,7 @@
 package com.example.example.repository;
 
 import com.example.example.domain.CommentEntity;
+import com.example.example.domain.enumerated.CommentMood;
 import com.example.example.model.CommentFilter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,4 +24,8 @@ public interface CommentRepository extends JpaRepository<CommentEntity, UUID>, J
 
         return this.findAll(specification, pageable);
     }
+
+
+
+    long countAllByMood(CommentMood mood);
 }

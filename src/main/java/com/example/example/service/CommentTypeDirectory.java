@@ -45,6 +45,10 @@ public class CommentTypeDirectory {
     );
 
 
+    public static Map<CommentType, Set<CommentType>> getMapTypes() {
+        return MAP_TYPES;
+    }
+
     public static Map<CommentType, Set<CommentType>> toTree(Collection<CommentType> commentTypes) {
         final var result = new HashMap<CommentType, Set<CommentType>>();
 

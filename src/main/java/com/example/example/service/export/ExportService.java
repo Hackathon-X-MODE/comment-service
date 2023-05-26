@@ -37,7 +37,6 @@ public class ExportService {
         final var start = Instant.now();
         this.generate(out);
         log.info("Wow took just {} seconds, look's good. oh and export finished!", Duration.between(start, Instant.now()).toSeconds());
-
     }
 
     private void generate(OutputStream out) throws IOException {
