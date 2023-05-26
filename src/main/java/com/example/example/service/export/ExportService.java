@@ -75,10 +75,14 @@ public class ExportService {
                 break;
             }
             page++;
+            log.info("And another page...");
 
         } while (true);
 
-        log.info("zipping...");
+        log.info("zipping {} files", files.size());
+        for (File file : files) {
+            log.info(file.getAbsolutePath());
+        }
 
 
         var zipOutputStream = new ZipOutputStream(out);
@@ -91,7 +95,6 @@ public class ExportService {
 
             fileInputStream.close();
             zipOutputStream.closeEntry();
-            file.delete();
         }
 
         zipOutputStream.close();
