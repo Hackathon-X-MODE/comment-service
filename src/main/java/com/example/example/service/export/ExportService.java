@@ -103,7 +103,7 @@ public class ExportService {
 
 
         this.commentExportService.update(out,
-                this.fileStorageService.upload("/comments/" + out + ".zip", new FileInputStream(tempDirPath + "/result.zip"))
+                this.fileStorageService.upload("comments/"+out+".zip", new FileInputStream(tempDirPath + "/result.zip"))
         );
     }
 

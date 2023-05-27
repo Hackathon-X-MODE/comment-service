@@ -23,6 +23,6 @@ public class FileStorageService {
         final var tm = TransferManagerBuilder.standard().withS3Client(this.amazonS3).build();
         Upload upload = tm.upload(this.bucket.getName(), path, inputStream, new ObjectMetadata());
         upload.waitForCompletion();
-        return this.bucket.getPublicUrl() + path;
+        return this.bucket.getPublicUrl() + "/" + path;
     }
 }
