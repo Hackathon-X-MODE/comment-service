@@ -15,7 +15,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.time.Duration;
 import java.time.Instant;
@@ -43,12 +46,6 @@ public class ExportService {
         final var start = Instant.now();
         this.generate(out);
         log.info("Wow took just {} seconds, look's good. oh and export finished!", Duration.between(start, Instant.now()).toSeconds());
-    }
-
-
-    public void export(OutputStream outputStream, UUID id) throws IOException {
-        final var path = this.commentExportService.getReport(id);
-        Files.copy(new File(path).toPath(), outputStream);
     }
 
     private void generate(UUID out) throws IOException, InterruptedException {
@@ -106,7 +103,7 @@ public class ExportService {
 
 
         this.commentExportService.update(out,
-                this.fileStorageService.upload("comments/"+out+".zip", new FileInputStream(tempDirPath + "/result.zip"))
+                this.fileStorageService.upload("/comments/" + out + ".zip", new FileInputStream(tempDirPath + "/result.zip"))
         );
     }
 

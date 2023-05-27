@@ -7,9 +7,7 @@ import com.example.example.service.export.CommentExportService;
 import com.example.example.service.export.ExportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.io.IOException;
 import java.util.List;
@@ -35,17 +33,6 @@ public class CommentExportController {
     @GetMapping(value = "/exports")
     public List<CommentExportEntity> getAll() {
         return this.commentExportService.getAll();
-    }
-
-
-    @GetMapping(value = "/exports/{id}")
-    public ResponseEntity<StreamingResponseBody> export(@PathVariable("id") UUID id) {
-
-        return ResponseEntity
-                .ok()
-                .header("Content-Disposition", "attachment; filename=\"export-comments-x-mode-team.zip\"")
-                .body(out -> this.exportService.export(out, id));
-
     }
 
 }
