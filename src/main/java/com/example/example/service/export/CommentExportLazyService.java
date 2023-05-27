@@ -17,7 +17,7 @@ public class CommentExportLazyService {
 
 
 
-    public UUID start() throws IOException {
+    public UUID start() throws IOException, InterruptedException {
        final var id =  this.commentExportService.create();
        this.exportService.export(id);
        return id;

@@ -7,6 +7,7 @@ import com.example.example.domain.enumerated.CommentType;
 import com.example.example.model.CommentDto;
 import com.example.example.model.CommentFilter;
 import com.example.example.service.CommentService;
+import com.example.example.service.FileStorageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -14,10 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.time.Duration;
 import java.time.Instant;
@@ -37,8 +35,10 @@ public class ExportService {
 
     private final CommentExportService commentExportService;
 
+    private final FileStorageService fileStorageService;
+
     @Async
-    public void export(UUID out) throws IOException {
+    public void export(UUID out) throws IOException, InterruptedException {
         log.info("Export started...");
         final var start = Instant.now();
         this.generate(out);
@@ -51,7 +51,7 @@ public class ExportService {
         Files.copy(new File(path).toPath(), outputStream);
     }
 
-    private void generate(UUID out) throws IOException {
+    private void generate(UUID out) throws IOException, InterruptedException {
         final var files = new ArrayList<File>();
         final var tempDirPath = Files.createTempDirectory("tmpDirPrefix").toFile().getAbsolutePath();
         var page = 0;
@@ -105,7 +105,9 @@ public class ExportService {
         }
 
 
-        this.commentExportService.update(out, tempDirPath + "/result.zip");
+        this.commentExportService.update(out,
+                this.fileStorageService.upload("comments/"+out+".zip", new FileInputStream(tempDirPath + "/result.zip"))
+        );
     }
 
 

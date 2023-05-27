@@ -27,7 +27,7 @@ public class CommentExportController {
 
     @PostMapping(value = "/exports")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public UUID export() throws IOException {
+    public UUID export() throws IOException, InterruptedException {
         return this.commentExportLazyService.start();
     }
 

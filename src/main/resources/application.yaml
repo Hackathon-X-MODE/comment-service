@@ -18,6 +18,15 @@ spring:
   mvc:
     async:
       request-timeout: -1
+aws:
+  cred:
+    host: ${AWS_ENDPOINT:obs.ru-moscow-1.hc.sbercloud.ru}
+    region: ${AWS_REGION:ru-moscow}
+    access-token: ${AWS_ACCESS_TOKEN:access-token}
+    secret-key: ${AWS_SECRET_KEY:secret}
+  bucket:
+    name: ${AWS_BUCKET:file}
+    public-url: ${AWS_PUBLIC_ENDPOINT:https://report-files.obs.ru-moscow-1.hc.sbercloud.ru}
 server:
   port: ${SERVER_HTTP_PORT:8083}
 springdoc:
