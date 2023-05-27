@@ -16,6 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 public class CommentCreationDto {
 
+    private String code;
+
     private CommentSource source;
 
     private String comment;

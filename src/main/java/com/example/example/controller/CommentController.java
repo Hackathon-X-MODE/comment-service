@@ -25,10 +25,9 @@ public class CommentController {
     @Operation(summary = "Зарегистрировать отзыв")
     @PostMapping
     public void register(
-            @RequestHeader("X-Ref-Order") String key,
             @RequestBody CommentCreationDto commentCreationDto
     ) {
-        this.commentService.register(key, commentCreationDto);
+        this.commentService.register(commentCreationDto.getCode(), commentCreationDto);
     }
 
     @GetMapping("{commentId}")
