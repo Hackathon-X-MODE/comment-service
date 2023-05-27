@@ -5,6 +5,7 @@ import com.example.example.exception.EntityNotFoundException;
 import com.example.example.exception.EntityNotReadyException;
 import com.example.example.repository.CommentExportRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,6 +51,8 @@ public class CommentExportService {
 
     @Transactional(readOnly = true)
     public List<CommentExportEntity> getAll() {
-        return this.commentExportRepository.findAll();
+        return this.commentExportRepository.findAll(
+                Sort.by("createDate").descending()
+        );
     }
 }
