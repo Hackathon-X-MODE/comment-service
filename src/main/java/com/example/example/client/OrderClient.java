@@ -1,5 +1,6 @@
 package com.example.example.client;
 
+import com.example.example.configuration.WebConstants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,6 +43,15 @@ public class OrderClient {
                 .retrieve()
                 .toBodilessEntity()
                 .block();
+    }
+
+    public UUID getOrderIdByExternal(String vendorCode, String externalOrderId){
+        return Objects.requireNonNull(this.webClient.get()
+                .uri(uriBuilder -> uriBuilder.path("/external/{externalOrderId}").build(externalOrderId))
+                .header(WebConstants.Header.EXTERNAL_SYSTEM, vendorCode)
+                .retrieve()
+                .bodyToMono(Dto.class)
+                .block()).id;
     }
 
 

@@ -2,6 +2,7 @@ package com.example.example.mapper;
 
 import com.example.example.configuration.MapperConfiguration;
 import com.example.example.domain.CommentEntity;
+import com.example.example.model.CommentAppendDto;
 import com.example.example.model.CommentCreationDto;
 import com.example.example.model.CommentDto;
 import com.example.example.model.CommentNlpDto;
@@ -17,6 +18,9 @@ public interface CommentMapper {
 
     @Mapping(target = "commentTypes", source = "types")
     CommentEntity toEntity(CommentCreationDto commentCreationDto);
+
+    @Mapping(target = "source", constant = "VENDOR")
+    CommentEntity toEntity(CommentAppendDto commentAppendDto);
 
 
     @Mapping(target = "id", ignore = true)

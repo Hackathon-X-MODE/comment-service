@@ -1,5 +1,7 @@
 package com.example.example.controller;
 
+import com.example.example.configuration.WebConstants;
+import com.example.example.model.CommentAppendDto;
 import com.example.example.model.CommentCreationDto;
 import com.example.example.model.CommentDto;
 import com.example.example.model.CommentFilter;
@@ -7,6 +9,7 @@ import com.example.example.service.CommentService;
 import com.example.example.service.CommentUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +31,17 @@ public class CommentController {
             @RequestBody CommentCreationDto commentCreationDto
     ) {
         this.commentService.register(commentCreationDto.getCode(), commentCreationDto);
+    }
+
+    @Operation(summary = "Добавить отзыв")
+    @PutMapping("{externalOrderId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void register(
+            @RequestHeader(WebConstants.Header.EXTERNAL_SYSTEM) String vendorCode,
+            @PathVariable("externalOrderId") String externalOrderId,
+            @RequestBody CommentAppendDto commentAppendDto
+    ) {
+        this.commentService.append(vendorCode, externalOrderId, commentAppendDto);
     }
 
     @GetMapping("{commentId}")

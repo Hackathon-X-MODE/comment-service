@@ -4,10 +4,7 @@ import com.example.example.client.OrderClient;
 import com.example.example.domain.CommentEntity;
 import com.example.example.exception.EntityNotFoundException;
 import com.example.example.mapper.CommentMapper;
-import com.example.example.model.CommentCreationDto;
-import com.example.example.model.CommentDto;
-import com.example.example.model.CommentFilter;
-import com.example.example.model.CommentNlpDto;
+import com.example.example.model.*;
 import com.example.example.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +43,18 @@ public class CommentService {
         this.nlpService.sentAnalyst(comment.getId(), comment.getComment(), comment.getCommentTypes().isEmpty());
         log.info("new comment sent to analyst");
         this.orderClient.deleteKey(key);
+    }
+
+    @Transactional
+    public void append(String vendorCode, String externalOrderId, CommentAppendDto commentAppendDto) {
+        final var orderId = this.orderClient.getOrderIdByExternal(vendorCode, externalOrderId);
+
+        final var comment = this.commentRepository.saveAndFlush(
+                this.commentMapper.toEntity(commentAppendDto)
+                        .setOrderId(orderId)
+        );
+        this.nlpService.sentAnalyst(comment.getId(), comment.getComment(), comment.getCommentTypes().isEmpty());
+        log.info("new comment sent to analyst");
     }
 
     @Transactional
