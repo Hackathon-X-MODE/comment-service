@@ -5,10 +5,13 @@ import com.example.example.model.CommentAppendDto;
 import com.example.example.model.CommentCreationDto;
 import com.example.example.model.CommentDto;
 import com.example.example.model.CommentFilter;
+import com.example.example.service.CommentAdvanceService;
 import com.example.example.service.CommentService;
 import com.example.example.service.CommentUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +27,8 @@ public class CommentController {
     private final CommentService commentService;
 
     private final CommentUpdateService commentUpdateService;
+
+    private final CommentAdvanceService commentAdvanceService;
 
     @Operation(summary = "Зарегистрировать отзыв")
     @PostMapping
@@ -58,6 +63,15 @@ public class CommentController {
             CommentFilter commentFilter
     ) {
         return this.commentService.filter(commentFilter);
+    }
+
+    @Operation(summary = "Поиск по фильтрам")
+    @GetMapping("/page")
+    public Page<CommentDto> getCommentPage(
+            CommentFilter commentFilter,
+            Pageable pageable
+    ) {
+        return this.commentAdvanceService.filterWithPage(commentFilter, pageable);
     }
 
     @Operation(description = "Получение по списку ID")
