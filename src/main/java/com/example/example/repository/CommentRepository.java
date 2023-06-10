@@ -22,9 +22,14 @@ public interface CommentRepository extends JpaRepository<CommentEntity, UUID>, J
             );
         }
 
+        if (Objects.nonNull(commentFilter.getMood())) {
+            specification = specification.and(
+                    (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("mood"), commentFilter.getMood())
+            );
+        }
+
         return this.findAll(specification, pageable);
     }
-
 
 
     long countAllByMood(CommentMood mood);
